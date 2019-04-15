@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import LinkList from './LinkList';
+import CreateLink from './CreateLink';
 import '../styles/App.css';
 
 class App extends Component {
@@ -8,6 +9,7 @@ class App extends Component {
       <div className="container">
           <div className="content">
               <LinkList/>
+              <CreateLink/>
           </div>
       </div>
     );
