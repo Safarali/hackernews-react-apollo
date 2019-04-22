@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import Link from './Link';
 
 
-const FEED_QUERY = gql `
+export const FEED_QUERY = gql `
     {
         feed {
             links {
@@ -27,6 +27,15 @@ const FEED_QUERY = gql `
     }
 `;
 const LinkList = () => {
+
+    const updateCacheAfterVote = (store, createdVote, linkId) => {
+        const data = store.readQuery({ query: FEED_QUERY });
+
+        const votedLink = data.feed.links.find(link => link.id === linkId);
+        votedLink.votes = createdVote.link.votes;
+        store.writeQuery({ query: FEED_QUERY, data })
+    }
+
     return (
         <Query query={FEED_QUERY}>
             {({ loading, error, data }) => {
@@ -41,6 +50,7 @@ const LinkList = () => {
                                 key={link.id} 
                                 link={link}
                                 index={index}
+                                updateStoreAfterVote={updateCacheAfterVote}
                             />
                         )}
                     </div>
